@@ -3,6 +3,8 @@ package com.example.ltp.weather2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -32,7 +34,14 @@ fun MainScreen() {
             )
         }
     ) { innerPadding ->
-        Text("No weather data", modifier = Modifier.padding(innerPadding))
+        Column(
+            Modifier
+                .padding(innerPadding)
+                .fillMaxWidth()
+        ) {
+            Text("No weather data")
+        }
+
     }
 }
 
