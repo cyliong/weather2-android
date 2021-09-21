@@ -43,6 +43,7 @@ fun MainScreen() {
                 value = "",
                 onValueChange = { },
                 modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("Search a city") },
                 trailingIcon = {
                     IconButton(onClick = { }) {
                         Icon(
