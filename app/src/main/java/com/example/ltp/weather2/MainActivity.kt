@@ -12,6 +12,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -41,9 +45,10 @@ fun MainScreen() {
         Column(
             Modifier.padding(innerPadding)
         ) {
+            var text by rememberSaveable { mutableStateOf("") }
             TextField(
-                value = "",
-                onValueChange = { },
+                value = text,
+                onValueChange = { text = it },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Search a city") },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
