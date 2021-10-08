@@ -3,10 +3,7 @@ package com.example.ltp.weather2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -61,13 +58,7 @@ fun MainScreen() {
                     }
                 }
             )
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("No weather data")
             }
         }
