@@ -86,3 +86,18 @@ fun EmptyWeatherBoardPreview() {
         WeatherBoard()
     }
 }
+
+@Preview
+@Composable
+fun WeatherBoardPreview() {
+    AppTheme {
+        val weather = Weather(
+            "Singapore",
+            "SG",
+            26.0,
+            80,
+            "Clear"
+        )
+        WeatherBoard(weather = weather)
+    }
+}
