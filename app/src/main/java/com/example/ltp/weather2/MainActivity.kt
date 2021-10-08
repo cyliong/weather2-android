@@ -78,3 +78,11 @@ fun MainScreenPreview() {
         MainScreen()
     }
 }
+
+@Preview
+@Composable
+fun EmptyWeatherBoardPreview() {
+    AppTheme {
+        WeatherBoard()
+    }
+}
