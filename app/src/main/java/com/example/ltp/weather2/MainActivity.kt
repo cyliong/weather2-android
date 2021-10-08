@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ltp.weather2.model.Weather
 import com.example.ltp.weather2.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -58,10 +59,15 @@ fun MainScreen() {
                     }
                 }
             )
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No weather data")
-            }
+            WeatherBoard(Modifier.fillMaxSize())
         }
+    }
+}
+
+@Composable
+fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
+    Box(modifier, contentAlignment = Alignment.Center) {
+        Text("No weather data")
     }
 }
 
