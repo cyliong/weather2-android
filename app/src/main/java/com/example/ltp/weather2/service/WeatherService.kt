@@ -2,6 +2,8 @@ package com.example.ltp.weather2.service
 
 import android.util.Log
 import com.example.ltp.weather2.model.Weather
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
@@ -14,7 +16,7 @@ private const val TAG = "WeatherService"
 
 class WeatherService {
 
-    fun getWeather(cityName: String): Weather? {
+    suspend fun getWeather(cityName: String): Weather? = withContext(Dispatchers.IO) {
         try {
             val jsonObject = getServiceResponse(cityName)
 
@@ -32,11 +34,11 @@ class WeatherService {
 
             Log.v(TAG, "Weather - $city, $countryCode: $temperature°C, $humidity%, $condition.")
 
-            return Weather(city, countryCode, temperature, humidity, condition)
+            return@withContext Weather(city, countryCode, temperature, humidity, condition)
         } catch (e: IOException) {
             Log.e(TAG, e.toString())
         }
-        return null
+        return@withContext null
     }
 
     private fun getServiceResponse(cityName: String): JSONObject {
