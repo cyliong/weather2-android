@@ -93,7 +93,7 @@ fun MainScreenPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun EmptyWeatherBoardPreview() {
     AppTheme {
@@ -101,7 +101,7 @@ fun EmptyWeatherBoardPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun WeatherBoardPreview() {
     AppTheme {
