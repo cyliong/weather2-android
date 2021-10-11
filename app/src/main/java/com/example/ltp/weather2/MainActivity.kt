@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ltp.weather2.model.Weather
 import com.example.ltp.weather2.ui.theme.AppTheme
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +67,21 @@ fun MainScreen() {
 
 @Composable
 fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
-    Box(modifier, contentAlignment = Alignment.Center) {
-        Text("No weather data")
+    if (weather == null) {
+        Box(modifier, contentAlignment = Alignment.Center) {
+            Text("No weather data")
+        }
+    } else {
+        Column(
+            modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("${weather.city}, ${weather.countryCode}")
+            Text("${weather.temperature.roundToInt()}°C")
+            Text(weather.condition)
+            Text("Humidity: ${weather.humidity}%")
+        }
     }
 }
 
