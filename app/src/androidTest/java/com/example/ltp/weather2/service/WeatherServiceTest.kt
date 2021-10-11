@@ -1,5 +1,6 @@
 package com.example.ltp.weather2.service
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -14,7 +15,7 @@ class WeatherServiceTest {
     }
 
     @Test
-    fun getWeather() {
+    fun getWeather() = runBlocking {
         val weather = weatherService.getWeather("Singapore")
         assertNotNull(weather)
     }
