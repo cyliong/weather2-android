@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.example.ltp.weather2.model.Weather
 import com.example.ltp.weather2.service.WeatherService
 import com.example.ltp.weather2.ui.theme.AppTheme
@@ -94,10 +95,10 @@ fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("${weather.city}, ${weather.countryCode}")
-            Text("${weather.temperature.roundToInt()}°C")
+            Text("${weather.city}, ${weather.countryCode}", fontSize = 30.sp)
+            Text("${weather.temperature.roundToInt()}°C", fontSize = 80.sp)
             Text(weather.condition)
-            Text("Humidity: ${weather.humidity}%")
+            Text("Humidity: ${weather.humidity}%", fontSize = 20.sp)
         }
     }
 }
