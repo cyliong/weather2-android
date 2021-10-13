@@ -14,7 +14,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ltp.weather2.model.Weather
@@ -32,6 +34,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen() {
     Scaffold(
@@ -45,6 +48,8 @@ fun MainScreen() {
             Modifier.padding(innerPadding)
         ) {
             var text by rememberSaveable { mutableStateOf("") }
+            val keyboardController = LocalSoftwareKeyboardController.current
+
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -53,7 +58,11 @@ fun MainScreen() {
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 trailingIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(
+                        onClick = {
+                            keyboardController?.hide()
+                        }
+                    ) {
                         Icon(
                             Icons.Filled.Search,
                             contentDescription = "Search"
