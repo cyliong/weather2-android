@@ -50,6 +50,7 @@ fun MainScreen() {
                 onValueChange = { text = it },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Search a city") },
+                singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 trailingIcon = {
                     IconButton(onClick = { }) {
