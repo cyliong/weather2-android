@@ -13,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -87,7 +88,7 @@ fun MainScreen(weatherService: WeatherService) {
 fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
     if (weather == null) {
         Box(modifier, contentAlignment = Alignment.Center) {
-            Text("No weather data")
+            Text("No weather data", color = Color.Gray, fontSize = 30.sp)
         }
     } else {
         Column(
