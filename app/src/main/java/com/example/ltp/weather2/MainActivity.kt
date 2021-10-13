@@ -50,6 +50,7 @@ fun MainScreen(weatherService: WeatherService) {
             Modifier.padding(innerPadding)
         ) {
             var text by rememberSaveable { mutableStateOf("") }
+            var weather by rememberSaveable { mutableStateOf<Weather?>(null) }
             val keyboardController = LocalSoftwareKeyboardController.current
             val scope = rememberCoroutineScope()
 
@@ -65,7 +66,7 @@ fun MainScreen(weatherService: WeatherService) {
                         onClick = {
                             keyboardController?.hide()
                             scope.launch {
-                                weatherService.getWeather(text)
+                                weather = weatherService.getWeather(text)
                             }
                         }
                     ) {
@@ -76,7 +77,7 @@ fun MainScreen(weatherService: WeatherService) {
                     }
                 }
             )
-            WeatherBoard(Modifier.fillMaxSize())
+            WeatherBoard(Modifier.fillMaxSize(), weather)
         }
     }
 }
