@@ -8,11 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -20,15 +17,20 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ltp.weather2.model.Weather
+import com.example.ltp.weather2.service.WeatherService
 import com.example.ltp.weather2.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
+
+    private val weatherService by lazy { WeatherService() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                MainScreen()
+                MainScreen(weatherService)
             }
         }
     }
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(weatherService: WeatherService) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -49,6 +51,7 @@ fun MainScreen() {
         ) {
             var text by rememberSaveable { mutableStateOf("") }
             val keyboardController = LocalSoftwareKeyboardController.current
+            val scope = rememberCoroutineScope()
 
             TextField(
                 value = text,
@@ -61,6 +64,9 @@ fun MainScreen() {
                     IconButton(
                         onClick = {
                             keyboardController?.hide()
+                            scope.launch {
+                                weatherService.getWeather(text)
+                            }
                         }
                     ) {
                         Icon(
@@ -99,7 +105,7 @@ fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
 @Composable
 fun MainScreenPreview() {
     AppTheme {
-        MainScreen()
+        MainScreen(WeatherService())
     }
 }
 
