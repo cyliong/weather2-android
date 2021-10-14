@@ -75,6 +75,10 @@ fun MainScreen(weatherService: WeatherService) {
                                         .showSnackbar("Please enter a city name.")
                                 } else {
                                     weather = weatherService.getWeather(text)
+                                    if (weather == null) {
+                                        scaffoldState.snackbarHostState
+                                            .showSnackbar("Unable to load weather data.")
+                                    }
                                 }
                             }
                         }
