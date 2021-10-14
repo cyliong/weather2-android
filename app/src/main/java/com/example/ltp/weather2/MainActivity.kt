@@ -41,7 +41,9 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(weatherService: WeatherService) {
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = { Text("Weather") }
@@ -68,7 +70,12 @@ fun MainScreen(weatherService: WeatherService) {
                         onClick = {
                             keyboardController?.hide()
                             scope.launch {
-                                weather = weatherService.getWeather(text)
+                                if (text.isBlank()) {
+                                    scaffoldState.snackbarHostState
+                                        .showSnackbar("Please enter a city name.")
+                                } else {
+                                    weather = weatherService.getWeather(text)
+                                }
                             }
                         }
                     ) {
