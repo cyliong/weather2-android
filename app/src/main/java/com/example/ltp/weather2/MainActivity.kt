@@ -15,12 +15,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.ltp.weather2.model.Weather
 import com.example.ltp.weather2.service.WeatherService
 import com.example.ltp.weather2.ui.theme.AppTheme
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -54,7 +56,7 @@ fun MainScreen(weatherService: WeatherService) {
             Modifier.padding(innerPadding)
         ) {
             var text by rememberSaveable { mutableStateOf("") }
-            var weather by rememberSaveable { mutableStateOf<Weather?>(null) }
+            val (weather, setWeather) = rememberSaveable { mutableStateOf<Weather?>(null) }
             val keyboardController = LocalSoftwareKeyboardController.current
             val scope = rememberCoroutineScope()
 
@@ -68,19 +70,14 @@ fun MainScreen(weatherService: WeatherService) {
                 trailingIcon = {
                     IconButton(
                         onClick = {
-                            keyboardController?.hide()
-                            scope.launch {
-                                if (text.isBlank()) {
-                                    scaffoldState.snackbarHostState
-                                        .showSnackbar("Please enter a city name.")
-                                } else {
-                                    weather = weatherService.getWeather(text)
-                                    if (weather == null) {
-                                        scaffoldState.snackbarHostState
-                                            .showSnackbar("Unable to load weather data.")
-                                    }
-                                }
-                            }
+                            onSearch(
+                                text,
+                                keyboardController,
+                                scope,
+                                scaffoldState,
+                                weatherService,
+                                setWeather
+                            )
                         }
                     ) {
                         Icon(
@@ -111,6 +108,31 @@ fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
             Text("${weather.temperature.roundToInt()}°C", fontSize = 80.sp)
             Text(weather.condition)
             Text("Humidity: ${weather.humidity}%", fontSize = 20.sp)
+        }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+private fun onSearch(
+    text: String,
+    keyboardController: SoftwareKeyboardController?,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    weatherService: WeatherService,
+    onWeatherChange: (Weather?) -> Unit
+) {
+    keyboardController?.hide()
+    coroutineScope.launch {
+        if (text.isBlank()) {
+            scaffoldState.snackbarHostState
+                .showSnackbar("Please enter a city name.")
+        } else {
+            val weather = weatherService.getWeather(text)
+            onWeatherChange(weather)
+            if (weather == null) {
+                scaffoldState.snackbarHostState
+                    .showSnackbar("Unable to load weather data.")
+            }
         }
     }
 }
