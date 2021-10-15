@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(weatherService: WeatherService) {
     val scaffoldState = rememberScaffoldState()
@@ -56,53 +55,63 @@ fun MainScreen(weatherService: WeatherService) {
         Column(
             Modifier.padding(innerPadding)
         ) {
-            var text by rememberSaveable { mutableStateOf("") }
             val (weather, setWeather) = rememberSaveable { mutableStateOf<Weather?>(null) }
-            val keyboardController = LocalSoftwareKeyboardController.current
-            val scope = rememberCoroutineScope()
-
-            TextField(
-                value = text,
-                onValueChange = { text = it },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search a city") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        onSearch(
-                            text,
-                            keyboardController,
-                            scope,
-                            scaffoldState,
-                            weatherService,
-                            setWeather
-                        )
-                    }
-                ),
-                trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            onSearch(
-                                text,
-                                keyboardController,
-                                scope,
-                                scaffoldState,
-                                weatherService,
-                                setWeather
-                            )
-                        }
-                    ) {
-                        Icon(
-                            Icons.Filled.Search,
-                            contentDescription = "Search"
-                        )
-                    }
-                }
-            )
+            SearchBar(scaffoldState, weatherService, setWeather)
             WeatherBoard(Modifier.fillMaxSize(), weather)
         }
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun SearchBar(
+    scaffoldState: ScaffoldState,
+    weatherService: WeatherService,
+    onWeatherChange: (Weather?) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var text by rememberSaveable { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val scope = rememberCoroutineScope()
+    TextField(
+        value = text,
+        onValueChange = { text = it },
+        modifier = modifier.fillMaxWidth(),
+        placeholder = { Text("Search a city") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearch(
+                    text,
+                    keyboardController,
+                    scope,
+                    scaffoldState,
+                    weatherService,
+                    onWeatherChange
+                )
+            }
+        ),
+        trailingIcon = {
+            IconButton(
+                onClick = {
+                    onSearch(
+                        text,
+                        keyboardController,
+                        scope,
+                        scaffoldState,
+                        weatherService,
+                        onWeatherChange
+                    )
+                }
+            ) {
+                Icon(
+                    Icons.Filled.Search,
+                    contentDescription = "Search"
+                )
+            }
+        }
+    )
 }
 
 @Composable
