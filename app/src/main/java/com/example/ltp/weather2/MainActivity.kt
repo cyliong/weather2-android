@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -67,6 +68,18 @@ fun MainScreen(weatherService: WeatherService) {
                 placeholder = { Text("Search a city") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        onSearch(
+                            text,
+                            keyboardController,
+                            scope,
+                            scaffoldState,
+                            weatherService,
+                            setWeather
+                        )
+                    }
+                ),
                 trailingIcon = {
                     IconButton(
                         onClick = {
