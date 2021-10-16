@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(weatherService: WeatherService) {
     val scaffoldState = rememberScaffoldState()
@@ -53,8 +54,26 @@ fun MainScreen(weatherService: WeatherService) {
         Column(
             Modifier.padding(innerPadding)
         ) {
-            val (weather, setWeather) = rememberSaveable { mutableStateOf<Weather?>(null) }
-            SearchBar(scaffoldState, weatherService, setWeather)
+            var weather by rememberSaveable { mutableStateOf<Weather?>(null) }
+            val keyboardController = LocalSoftwareKeyboardController.current
+            val scope = rememberCoroutineScope()
+            SearchBar(
+                onSearch = {
+                    keyboardController?.hide()
+                    scope.launch {
+                        if (it.isBlank()) {
+                            scaffoldState.snackbarHostState
+                                .showSnackbar("Please enter a city name.")
+                        } else {
+                            weather = weatherService.getWeather(it)
+                            if (weather == null) {
+                                scaffoldState.snackbarHostState
+                                    .showSnackbar("Unable to load weather data.")
+                            }
+                        }
+                    }
+                }
+            )
             WeatherBoard(Modifier.fillMaxSize(), weather)
         }
     }
@@ -63,32 +82,10 @@ fun MainScreen(weatherService: WeatherService) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
-    scaffoldState: ScaffoldState,
-    weatherService: WeatherService,
-    onWeatherChange: (Weather?) -> Unit,
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var text by rememberSaveable { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val scope = rememberCoroutineScope()
-
-    fun search() {
-        keyboardController?.hide()
-        scope.launch {
-            if (text.isBlank()) {
-                scaffoldState.snackbarHostState
-                    .showSnackbar("Please enter a city name.")
-            } else {
-                val weather = weatherService.getWeather(text)
-                onWeatherChange(weather)
-                if (weather == null) {
-                    scaffoldState.snackbarHostState
-                        .showSnackbar("Unable to load weather data.")
-                }
-            }
-        }
-    }
-
     TextField(
         value = text,
         onValueChange = { text = it },
@@ -97,11 +94,11 @@ fun SearchBar(
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
-            onSearch = { search() }
+            onSearch = { onSearch(text) }
         ),
         trailingIcon = {
             IconButton(
-                onClick = { search() }
+                onClick = { onSearch(text) }
             ) {
                 Icon(
                     Icons.Filled.Search,
