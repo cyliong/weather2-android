@@ -153,7 +153,8 @@ fun WeatherBoardPreview() {
             "SG",
             26.0,
             80,
-            "Clear"
+            "Clear",
+            ""
         )
         WeatherBoard(weather = weather)
     }

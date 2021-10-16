@@ -34,7 +34,7 @@ class WeatherService {
 
             Log.v(TAG, "Weather - $city, $countryCode: $temperature°C, $humidity%, $condition.")
 
-            return@withContext Weather(city, countryCode, temperature, humidity, condition)
+            return@withContext Weather(city, countryCode, temperature, humidity, condition, "")
         } catch (e: IOException) {
             Log.e(TAG, e.toString())
         }

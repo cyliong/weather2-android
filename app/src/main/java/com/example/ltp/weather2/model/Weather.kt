@@ -9,5 +9,6 @@ data class Weather(
     val countryCode: String,
     val temperature: Double,
     val humidity: Int,
-    val condition: String
+    val condition: String,
+    val iconUrl: String
 ) : Parcelable
