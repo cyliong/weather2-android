@@ -79,7 +79,6 @@ fun MainScreen(weatherService: WeatherService) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     onSearch: (String) -> Unit,
