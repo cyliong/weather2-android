@@ -12,6 +12,8 @@ import javax.net.ssl.HttpsURLConnection
 private const val API_KEY = ""
 private const val SERVICE_URL =
     "https://api.openweathermap.org/data/2.5/weather?appid=$API_KEY&units=metric"
+private const val ICON_BASE_URL = "https://openweathermap.org/img/wn/"
+private const val ICON_FILE_EXTENSION = "@2x.png"
 private const val TAG = "WeatherService"
 
 class WeatherService {
@@ -26,15 +28,20 @@ class WeatherService {
 
             val weatherObject = jsonObject.getJSONArray("weather").getJSONObject(0)
             val condition = weatherObject.getString("main")
+            val icon = weatherObject.getString("icon")
+            val iconUrl = ICON_BASE_URL + icon + ICON_FILE_EXTENSION
 
             val city = jsonObject.getString("name")
 
             val systemObject = jsonObject.getJSONObject("sys")
             val countryCode = systemObject.getString("country")
 
-            Log.v(TAG, "Weather - $city, $countryCode: $temperature°C, $humidity%, $condition.")
+            Log.v(
+                TAG,
+                "Weather - $city, $countryCode: $temperature°C, $humidity%, $condition, $iconUrl."
+            )
 
-            return@withContext Weather(city, countryCode, temperature, humidity, condition, "")
+            return@withContext Weather(city, countryCode, temperature, humidity, condition, iconUrl)
         } catch (e: IOException) {
             Log.e(TAG, e.toString())
         }
