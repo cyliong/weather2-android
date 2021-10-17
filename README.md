@@ -7,6 +7,7 @@ showcasing various Android programming techniques, including:
 - Show Snackbar using `ScaffoldState.snackbarHostState`
 - Network request using `HttpsURLConnection`
 - Deserialize JSON response using `JSONObject`
+- Display images from the internet using Coil
 - Coroutines with `rememberCoroutineScope`
 - Composable preview
 
