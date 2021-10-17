@@ -3,6 +3,7 @@ package com.example.ltp.weather2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,7 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.example.ltp.weather2.model.Weather
 import com.example.ltp.weather2.service.WeatherService
 import com.example.ltp.weather2.ui.theme.AppTheme
@@ -122,6 +125,11 @@ fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
         ) {
             Text("${weather.city}, ${weather.countryCode}", fontSize = 30.sp)
             Text("${weather.temperature.roundToInt()}°C", fontSize = 80.sp)
+            Image(
+                painter = rememberImagePainter(weather.iconUrl),
+                contentDescription = "Weather icon",
+                modifier = Modifier.size(100.dp)
+            )
             Text(weather.condition)
             Text("Humidity: ${weather.humidity}%", fontSize = 20.sp)
         }
