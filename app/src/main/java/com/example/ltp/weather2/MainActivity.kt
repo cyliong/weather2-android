@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -114,7 +115,17 @@ fun SearchBar(
 @Composable
 fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
     if (weather == null) {
-        Box(modifier, contentAlignment = Alignment.Center) {
+        Column(
+            modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                Icons.Filled.CloudOff,
+                contentDescription = null,
+                modifier = Modifier.size(100.dp),
+                tint = Color.Gray
+            )
             Text("No weather data", color = Color.Gray, fontSize = 30.sp)
         }
     } else {
