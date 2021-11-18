@@ -114,12 +114,12 @@ fun SearchBar(
 
 @Composable
 fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
-    if (weather == null) {
-        Column(
-            modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    Column(
+        modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (weather == null) {
             Icon(
                 Icons.Filled.CloudOff,
                 contentDescription = null,
@@ -127,13 +127,7 @@ fun WeatherBoard(modifier: Modifier = Modifier, weather: Weather? = null) {
                 tint = Color.Gray
             )
             Text("No weather data", color = Color.Gray, fontSize = 30.sp)
-        }
-    } else {
-        Column(
-            modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        } else {
             Text("${weather.city}, ${weather.countryCode}", fontSize = 30.sp)
             Text("${weather.temperature.roundToInt()}°C", fontSize = 80.sp)
             Image(
