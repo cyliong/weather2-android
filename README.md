@@ -16,7 +16,7 @@ showcasing various Android programming techniques, including:
 - Display the city's weather condition
 
 ## Requirements
-- Android Studio Arctic Fox | 2020.3.1 Patch 3 or newer
+- Android Studio Arctic Fox | 2020.3.1 Patch 4 or newer
 - Android 5.0 (API level 21) or higher
 - Kotlin 1.5 or higher
 
