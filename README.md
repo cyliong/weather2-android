@@ -16,7 +16,7 @@ showcasing various Android programming techniques, including:
 - Display the city's weather condition
 
 ## Requirements
-- Android Studio Bumblebee | 2021.1.1 or newer
+- Android Studio Bumblebee | 2021.1.1 Patch 1 or newer
 - Android 5.0 (API level 21) or higher
 - Kotlin 1.5 or higher
 
