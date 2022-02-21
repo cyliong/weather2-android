@@ -18,7 +18,7 @@ showcasing various Android programming techniques, including:
 ## Requirements
 - Android Studio Bumblebee | 2021.1.1 Patch 1 or newer
 - Android 5.0 (API level 21) or higher
-- Kotlin 1.5 or higher
+- Kotlin 1.6 or higher
 
 ## Setup
 1. Get your API key 
